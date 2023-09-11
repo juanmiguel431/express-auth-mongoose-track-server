@@ -2,6 +2,7 @@ import express from 'express';
 import 'dotenv/config'
 import MongoDbWrapperClient from './apis/mongoDbWrapperClient';
 import MongoDbCollectionManager from './apis/mongoDbCollectionManager';
+import authRoutes from './routes/auth';
 
 const mongoDbClient = new MongoDbWrapperClient();
 
@@ -15,6 +16,8 @@ mongoDbClient.client.connect().then(() => {
 
 
 const app = express();
+
+app.use(authRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hi there!');
