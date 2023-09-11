@@ -17,6 +17,7 @@ mongoDbClient.client.connect().then(() => {
 
 const app = express();
 
+app.use(express.json());
 app.use(authRoutes);
 
 app.get('/', (req, res) => {
