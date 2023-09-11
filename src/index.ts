@@ -1,4 +1,18 @@
 import express from 'express';
+import 'dotenv/config'
+import MongoDbWrapperClient from './apis/mongoDbWrapperClient';
+import MongoDbCollectionManager from './apis/mongoDbCollectionManager';
+
+const mongoDbClient = new MongoDbWrapperClient();
+
+mongoDbClient.client.connect().then(() => {
+  console.log('Connected to Mongo Instance');
+}).catch((reason) => {
+  console.log('Error connecting to Mongo', reason);
+})
+
+// const collectionManager = new MongoDbCollectionManager(mongoDbClient.client, '');
+
 
 const app = express();
 
@@ -8,4 +22,4 @@ app.get('/', (req, res) => {
 
 app.listen(3000, () => {
   console.log('Listening on port 3000');
-})
+});
