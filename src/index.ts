@@ -1,19 +1,8 @@
-import express from 'express';
 import 'dotenv/config'
-import MongoDbWrapperClient from './apis/mongoDbWrapperClient';
-import MongoDbCollectionManager from './apis/mongoDbCollectionManager';
+import './models/User';
+import './apis/mongooseDbClient';
+import express from 'express';
 import authRoutes from './routes/auth';
-
-const mongoDbClient = new MongoDbWrapperClient();
-
-mongoDbClient.client.connect().then(() => {
-  console.log('Connected to Mongo Instance');
-}).catch((reason) => {
-  console.log('Error connecting to Mongo', reason);
-})
-
-// const collectionManager = new MongoDbCollectionManager(mongoDbClient.client, '');
-
 
 const app = express();
 

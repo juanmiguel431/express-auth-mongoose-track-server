@@ -1,53 +1,20 @@
-import {
-  Collection,
-  Db,
-  Filter, FindCursor, FindOptions, InsertManyResult,
-  InsertOneResult,
-  MongoClient,
-  OptionalUnlessRequiredId,
-  ServerApiVersion, WithId, Document
-} from 'mongodb';
+import { MongoClient, ServerApiVersion } from 'mongodb';
+import { mongoDbConnectionString } from './contants';
 
-export default class MongoDbClient<T extends Document = any> {
-  private readonly collection: Collection<T>;
-  private db: Db;
-  private client: MongoClient;
-
-  constructor(collection: string) {
-    const connectionString = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER}.mongodb.net/?retryWrites=true&w=majority`;
-    this.client = new MongoClient(connectionString, {
-      serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-      }
-    });
-
-    this.db = this.client.db(process.env.MONGODB_DATABASE);
-    this.collection = this.db.collection(collection);
+const mongoDbClient = new MongoClient(mongoDbConnectionString, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
   }
+});
 
-  public async connect(): Promise<void> {
-    await this.client.connect();
-  }
+mongoDbClient.connect().then(() => {
+  console.log('Connected to Mongo Instance - Native Client');
+}).catch((reason) => {
+  console.log('Error connecting to Mongo', reason);
+}).finally(() => {
+  mongoDbClient.close();
+});
 
-  public async close(): Promise<void> {
-    await this.client.close();
-  }
-
-  public async insert(item: OptionalUnlessRequiredId<T>): Promise<InsertOneResult<T>> {
-    return this.collection.insertOne(item);
-  }
-
-  public async insertMany(items: OptionalUnlessRequiredId<T>[]): Promise<InsertManyResult<T>> {
-    return this.collection.insertMany(items);
-  }
-
-  public async find(filter: Filter<T>, options?: FindOptions): Promise<FindCursor<WithId<T>>> {
-    return this.collection.find(filter, options);
-  }
-
-  public async findAll(): Promise<FindCursor<WithId<T>>> {
-    return this.collection.find();
-  }
-}
+export default mongoDbClient;
