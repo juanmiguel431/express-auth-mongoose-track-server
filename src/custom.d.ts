@@ -1,8 +1,10 @@
-import { Request as ExpressRequest } from 'express';
 import { User } from './models';
 
-// declare module 'express-serve-static-core' {
-//   interface Request extends ExpressRequest {
-//     user?: User;
+//This is not working as expected.
+// declare global {
+//   namespace Express {
+//     interface Request {
+//       user?: User | null;
+//     }
 //   }
 // }
