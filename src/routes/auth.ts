@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import * as core from 'express-serve-static-core';
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
 // import mongoDbClient from '../apis/mongoDbClient'; // Automatically connect to mongo Db using the native client.
 // import MongoDbCollectionManager from '../apis/mongoDbCollectionManager'; //Manager that user the native client.
 // import { OptionalId } from 'mongodb';
@@ -26,7 +27,15 @@ router.post('/signup', async (req: Request<core.ParamsDictionary, any, SignupReq
     const user = new User({ email, password });
     await user.save();
 
-    res.send('You made a post request');
+    const jwtKey = process.env.JWT_SECRET_KEY;
+
+    if (!jwtKey) {
+      return res.status(500).send('Internal Server Error');
+    }
+
+    const token = jwt.sign({ userId: user._id }, jwtKey, { expiresIn: '1h' });
+
+    res.send({ token });
   } catch (e) {
     if (e instanceof Error) {
       return res.status(422).send(e.message);
