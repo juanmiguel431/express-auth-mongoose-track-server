@@ -1,5 +1,4 @@
 import 'dotenv/config'
-import './models/User';
 import './apis/mongooseDbClient';
 import express, { Request, Response } from 'express';
 import authRoutes from './routes/auth';

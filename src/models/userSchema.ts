@@ -1,21 +1,22 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
+import { IUser, UserModel } from './index';
+import { mongooseModel } from './mongooseModels';
 
-const Schema = mongoose.Schema;
-
-const userSchema = new Schema({
-  email: {
-    type: String,
-    unique: true,
-    required: true
+const schema = new Schema<IUser, UserModel>({
+    email: {
+      type: String,
+      unique: true,
+      required: true
+    },
+    password: {
+      type: String,
+      required: true
+    }
   },
-  password: {
-    type: String,
-    required: true
-  }
-});
+);
 
-userSchema.pre('save', function (next, opts) {
+schema.pre('save', function (next, opts) {
   const user = this;
   if (!user.isModified('password')) {
     next();
@@ -37,7 +38,7 @@ userSchema.pre('save', function (next, opts) {
   });
 });
 
-userSchema.methods.comparePassword = function (candidatePassword: string) {
+schema.method('comparePassword', function comparePassword(candidatePassword: string) {
   const user = this;
   return new Promise((resolve, reject) => {
     bcrypt.compare(candidatePassword, user.password, (err, same) => {
@@ -52,6 +53,8 @@ userSchema.methods.comparePassword = function (candidatePassword: string) {
       resolve(true);
     });
   });
-};
+});
 
-mongoose.model('User', userSchema);
+const User = model<IUser, UserModel>(mongooseModel.User, schema);
+
+export default User;

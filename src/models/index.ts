@@ -1,7 +1,16 @@
-import { ObjectId } from 'mongodb';
+import { Model } from 'mongoose';
 
-export type User = {
-  _id: ObjectId;
+export interface IUser {
   email: string;
   password: string;
-};
+}
+
+interface IUserInstanceMethods {
+  comparePassword(candidatePassword: string): Promise<boolean | Error>;
+}
+
+interface IStaticMethods {
+
+}
+
+export type UserModel = Model<IUser, {}, IUserInstanceMethods> & IStaticMethods;

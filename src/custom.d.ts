@@ -1,4 +1,4 @@
-import { User } from './models';
+import { IUser } from './models';
 
 //This is not working as expected.
 // declare global {

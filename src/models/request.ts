@@ -1,5 +1,5 @@
-import { User } from './index';
+import { IUser } from './index';
 
 export type RequestProperties = {
-  user: User | null
+  user: IUser | null
 }
