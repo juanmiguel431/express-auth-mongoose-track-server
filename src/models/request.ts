@@ -1,5 +1,6 @@
-import { IUser } from './index';
+import { IUser } from './user';
+import { Request } from 'express';
 
-export type RequestProperties = {
-  user: IUser | null
+export interface AuthRequest extends Request {
+  user?: IUser | null;
 }
