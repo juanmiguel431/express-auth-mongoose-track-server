@@ -10,7 +10,7 @@ type TrackModel = Model<ITrack, {}, IInstanceMethods> & IStaticMethods;
 
 const pointSchema = new Schema<IPoint>({
   timestamp: Number,
-  coordinate: {
+  coordinates: {
     latitude: Number,
     longitude: Number,
     altitude: Number,

@@ -8,7 +8,7 @@ export interface ITrack {
 
 export interface IPoint {
   timestamp: number;
-  coordinate: ICoordinate[]
+  coordinates: ICoordinate
 }
 
 export interface ICoordinate {
