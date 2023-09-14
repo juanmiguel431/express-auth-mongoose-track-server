@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import * as core from 'express-serve-static-core';
 import jwt from 'jsonwebtoken';
-import userSchema from '../mongoose/userSchema';
+import { userSchema } from '../mongoose';
 
 const router = express.Router();
 

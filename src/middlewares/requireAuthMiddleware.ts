@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from 'express';
 
 const User = mongoose.model('User');
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const requireAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
   // authorization === 'Bearer afsfafdsafasfasdfas'
 
@@ -34,4 +34,4 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
   });
 };
 
-export default authMiddleware;
+export default requireAuthMiddleware;

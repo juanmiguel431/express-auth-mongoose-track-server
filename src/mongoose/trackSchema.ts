@@ -33,6 +33,6 @@ const schema = new Schema<ITrack, TrackModel>({
   locations: [pointSchema]
 });
 
-const trackSchema = model<ITrack, TrackModel>(DbSchema.Track, schema);
+export const trackSchema = model<ITrack, TrackModel>(DbSchema.Track, schema);
 
 export default trackSchema;

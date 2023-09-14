@@ -1,15 +1,15 @@
 import 'dotenv/config'
 import './apis/mongooseDbClient';
 import express, { Request, Response } from 'express';
-import authRoutes from './routes/auth';
-import { authMiddleware } from './middlewares';
+import { authRoutes, trackRoutes } from './routes';
+import { requireAuthMiddleware } from './middlewares';
 
 const app = express();
 
 app.use(express.json());
-app.use(authRoutes);
+app.use(authRoutes, trackRoutes);
 
-app.get('/', [authMiddleware], (req: Request, res: Response) => {
+app.get('/', [requireAuthMiddleware], (req: Request, res: Response) => {
   // @ts-ignore
   res.send(`Your email is ${req.user?.email}`);
 });

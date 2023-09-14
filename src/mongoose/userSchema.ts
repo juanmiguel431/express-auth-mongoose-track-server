@@ -63,6 +63,6 @@ schema.method('comparePassword', function comparePassword(candidatePassword: str
   });
 });
 
-const userSchema = model<IUser, UserModel>(DbSchema.User, schema);
+export const userSchema = model<IUser, UserModel>(DbSchema.User, schema);
 
 export default userSchema;

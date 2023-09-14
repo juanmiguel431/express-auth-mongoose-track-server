@@ -1,10 +1,9 @@
 import { IUser } from './models';
 
-//This is not working as expected.
-// declare global {
-//   namespace Express {
-//     interface Request {
-//       user?: User | null;
-//     }
-//   }
-// }
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser | null;
+    }
+  }
+}
