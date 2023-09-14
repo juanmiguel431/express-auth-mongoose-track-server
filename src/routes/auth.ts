@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import * as core from 'express-serve-static-core';
 import jwt from 'jsonwebtoken';
-import User from '../models/userSchema';
+import userSchema from '../mongoose/userSchema';
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.post('/signup', async (req: Request<core.ParamsDictionary, any, SignupReq
   const { email, password } = req.body;
 
   try {
-    const user = new User({ email, password });
+    const user = new userSchema({ email, password });
     await user.save();
 
     const jwtKey = process.env.JWT_SECRET_KEY;
@@ -40,7 +40,7 @@ router.post('/signin', async (req: Request<core.ParamsDictionary, any, SignupReq
     return res.status(422).send({ error: 'Must provide email and password'});
   }
 
-  const user = await User.findOne({ email: email });
+  const user = await userSchema.findOne({ email: email });
 
   if (!user) {
     return res.status(401).send({ error: 'Invalid password or email'});

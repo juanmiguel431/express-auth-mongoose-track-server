@@ -1,7 +1,15 @@
-import { Schema, model } from 'mongoose';
+import { Model, Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { IUser, UserModel } from './index';
-import { mongooseModel } from './mongooseModels';
+import { IUser } from '../models';
+import DbSchema from './dbSchema';
+
+interface IUserInstanceMethods {
+  comparePassword(candidatePassword: string): Promise<boolean | Error>;
+}
+
+interface IStaticMethods {}
+
+type UserModel = Model<IUser, {}, IUserInstanceMethods> & IStaticMethods;
 
 const schema = new Schema<IUser, UserModel>({
     email: {
@@ -55,6 +63,6 @@ schema.method('comparePassword', function comparePassword(candidatePassword: str
   });
 });
 
-const User = model<IUser, UserModel>(mongooseModel.User, schema);
+const userSchema = model<IUser, UserModel>(DbSchema.User, schema);
 
-export default User;
+export default userSchema;
