@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
 import { NextFunction, Request, Response } from 'express';
+import { AuthRequest } from '../models';
+import userSchema from '../mongoose/userSchema';
 
-const User = mongoose.model('User');
-
-export const requireAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const requireAuthMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
   // authorization === 'Bearer afsfafdsafasfasdfas'
 
@@ -27,8 +26,7 @@ export const requireAuthMiddleware = (req: Request, res: Response, next: NextFun
 
     const { userId } = decoded as any;
 
-    // @ts-ignore
-    req.user = await User.findById(userId);
+    req.user = await userSchema.findById(userId);
 
     next();
   });
