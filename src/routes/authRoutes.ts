@@ -37,20 +37,20 @@ router.post('/signup', async (req: Request<core.ParamsDictionary, any, SignupReq
 
 router.get('/getUser', requireAuthMiddleware, (req: AuthRequest, res: Response) => {
   const user = req.user;
-  res.send({ user: { _id: user?._id, email: user?.email } });
+  res.send({ _id: user?._id, email: user?.email });
 });
 
 router.post('/signin', async (req: Request<core.ParamsDictionary, any, SignupRequest>, res: Response) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(422).send({ error: 'Must provide email and password'});
+    return res.status(422).send({ error: 'Must provide email and password' });
   }
 
   const user = await userSchema.findOne({ email: email });
 
   if (!user) {
-    return res.status(401).send({ error: 'Invalid password or email'});
+    return res.status(401).send({ error: 'Invalid password or email' });
   }
 
   try {
@@ -69,7 +69,7 @@ router.post('/signin', async (req: Request<core.ParamsDictionary, any, SignupReq
 
   } catch (e) {
     if (e instanceof Error) {
-      return res.status(401).send({ error: 'Invalid password or email'});
+      return res.status(401).send({ error: 'Invalid password or email' });
     }
   }
 })
