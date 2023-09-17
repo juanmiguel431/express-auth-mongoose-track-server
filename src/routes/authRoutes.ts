@@ -13,9 +13,10 @@ interface SignupRequest {
 }
 
 router.post('/signup', async (req: Request<core.ParamsDictionary, any, SignupRequest>, res: Response) => {
-  const { email, password } = req.body;
-
   try {
+    const email = req.body.email?.toLowerCase();
+    const password = req.body?.password;
+
     const user = new userSchema({ email, password });
     await user.save();
 
@@ -41,7 +42,8 @@ router.get('/getUser', requireAuthMiddleware, (req: AuthRequest, res: Response) 
 });
 
 router.post('/signin', async (req: Request<core.ParamsDictionary, any, SignupRequest>, res: Response) => {
-  const { email, password } = req.body;
+  const email = req.body.email?.toLowerCase();
+  const password = req.body?.password;
 
   if (!email || !password) {
     return res.status(422).send({ error: 'Must provide email and password' });
