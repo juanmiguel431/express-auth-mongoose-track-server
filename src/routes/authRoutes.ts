@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import * as core from 'express-serve-static-core';
 import jwt from 'jsonwebtoken';
 import { userSchema } from '../mongoose';
+import { requireAuthMiddleware } from '../middlewares';
+import { AuthRequest } from '../models';
 
 const router = express.Router();
 
@@ -31,6 +33,11 @@ router.post('/signup', async (req: Request<core.ParamsDictionary, any, SignupReq
       return res.status(422).send(e.message);
     }
   }
+});
+
+router.get('/getUser', requireAuthMiddleware, (req: AuthRequest, res: Response) => {
+  const user = req.user;
+  res.send({ user: { _id: user?._id, email: user?.email } });
 });
 
 router.post('/signin', async (req: Request<core.ParamsDictionary, any, SignupRequest>, res: Response) => {
