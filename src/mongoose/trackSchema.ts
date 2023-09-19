@@ -1,5 +1,5 @@
 import { Schema, model, Model } from 'mongoose';
-import { IPoint, ITrack } from '../models/track';
+import { IPoint, ITrack } from '../models';
 import DbSchema from './dbSchema';
 
 interface IInstanceMethods {}
@@ -10,10 +10,11 @@ type TrackModel = Model<ITrack, {}, IInstanceMethods> & IStaticMethods;
 
 const pointSchema = new Schema<IPoint>({
   timestamp: Number,
-  coordinates: {
+  coords: {
     latitude: Number,
     longitude: Number,
     altitude: Number,
+    altitudeAccuracy: Number,
     accuracy: Number,
     heading: Number,
     speed: Number,

@@ -8,14 +8,15 @@ export interface ITrack {
 
 export interface IPoint {
   timestamp: number;
-  coordinates: ICoordinate
+  coords: ICoordinate
 }
 
 export interface ICoordinate {
   latitude: number;
   longitude: number;
-  altitude: number;
-  accuracy: number;
-  heading: number;
-  speed: number;
+  altitude: number | null;
+  accuracy: number | null;
+  altitudeAccuracy: number | null;
+  heading: number | null;
+  speed: number | null;
 }
