@@ -16,7 +16,7 @@ router.post('/tracks', async (req: AuthRequest, res: Response) => {
   const { name, locations } = req.body;
 
   if (!name || !locations) {
-    res.status(422).send({ Error: 'You must provide a name and a location' });
+    res.status(422).send({ error: 'You must provide a name and a location' });
   }
 
   try {
