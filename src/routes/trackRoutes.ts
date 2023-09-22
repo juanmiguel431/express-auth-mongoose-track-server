@@ -12,6 +12,12 @@ router.get('/tracks', async (req: AuthRequest, res: Response) => {
   res.send(tracks);
 });
 
+router.get('/track/:id', async (req: AuthRequest, res: Response) => {
+  const id = req.params.id;
+  const tracks = await trackSchema.find({ userId: req.user?._id, _id: id });
+  res.send(tracks);
+});
+
 router.post('/tracks', async (req: AuthRequest, res: Response) => {
   const { name, locations } = req.body;
 
